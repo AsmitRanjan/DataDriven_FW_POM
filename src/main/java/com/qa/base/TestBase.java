@@ -24,6 +24,8 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
+
+
 public class TestBase {
 	public static WebDriver driver;
 	public static Properties prop;
@@ -103,6 +105,15 @@ public class TestBase {
 			}
 			extent.endTest(extentTest); 
 			extent.flush();
+		}
+		
+		
+		public  WebDriver getEventDriver(WebDriver driver,com.aventstack.extentreports.ExtentTest test) {
+			EventFiringWebDriver d = new EventFiringWebDriver(driver);
+			WebEventListener event =new  WebEventListener(test);
+			d.register(event);
+			//waitForPageLoad(driver);
+			return d;
 		}
 		
 }

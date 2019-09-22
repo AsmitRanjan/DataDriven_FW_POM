@@ -4,15 +4,24 @@ import java.io.IOException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import com.qa.base.TestBase;
 import com.relevantcodes.extentreports.LogStatus;
 
 public class WebEventListener extends TestBase implements WebDriverEventListener{
 
+    ExtentTest test;
+	
+	public WebEventListener(ExtentTest test)
+	{
+		this.test=test;
+	}  
 	public WebEventListener() throws IOException {
 		super();
 	}
@@ -23,6 +32,7 @@ public class WebEventListener extends TestBase implements WebDriverEventListener
 
 	public void afterNavigateTo(String url, WebDriver driver) {
 		System.out.println("Navigated to:'" + url + "'");
+		test.log(Status.INFO, "afterClickOn() " +driver.getTitle());
 	}
 
 	public void beforeChangeValueOf(WebElement element, WebDriver driver) {
@@ -41,6 +51,18 @@ public class WebEventListener extends TestBase implements WebDriverEventListener
 	public void afterClickOn(WebElement element, WebDriver driver) {
 		System.out.println("Clicked on: " + element.toString());
 //		extentTest.log(LogStatus.INFO, "Clicked on: " + element.toString());
+		
+		try
+		{
+			String html=element.getAttribute("outerHTML");
+			test.log(Status.INFO, "afterClickOn() " +html);
+
+		} catch (StaleElementReferenceException e)
+		{
+
+			test.log(Status.INFO, "afterClickOn() "+element.toString());
+			
+		}
 	}
 
 	public void beforeNavigateBack(WebDriver driver) {
@@ -122,6 +144,24 @@ public class WebEventListener extends TestBase implements WebDriverEventListener
 
 	public void afterChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend) {
 		// TODO Auto-generated method stub
+		try
+		{
+			if(element.getAttribute("type").contains("password"))
+			{
+				 test.log(Status.INFO, "afterChangeValueOf()"+ element.toString().split("-> ", 2)[1] + " value - ********" );
+				
+			}
+			else
+			{
+		 test.log(Status.INFO, "afterChangeValueOf()"+ element.toString().split("-> ", 2)[1] + " value - " + element.getAttribute("value"));
+		
+			}
+		}
+		catch(StaleElementReferenceException e)
+		{
+			test.log(Status.INFO, "afterChangeValueOf()"+ element.toString().split("-> ", 2)[1] );
+			//System.out.println("after send keys locator - [" + element.toString().split("-> ", 2)[1] );
+		}
 
 	}
 

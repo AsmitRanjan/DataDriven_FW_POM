@@ -1,16 +1,20 @@
 package com.qa.ExtentReportListener;
-
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
+
 import com.qa.util.MYExtentReport;
 
 
-public class InitReports extends TestListenerAdapter{
+
+public class InitReports extends TestListenerAdapter
+{
 	/**
 	 * @description: Calling initialization of extent reports.
 	 * 
@@ -60,6 +64,24 @@ public class InitReports extends TestListenerAdapter{
 		// TODO Auto-generated method stub
 		// Utils.getDriver().manage().deleteAllCookies() ;
 	}
+	/*
+	 * Deleting the Folder and Files inside the Folder
+	 */
+	public static boolean deleteDir(File dir)
+	{
+		if (dir.exists())
+		{
+			String[] children = dir.list();
+			for (int i = 0; i < children.length; i++)
+			{
+				boolean success = deleteDir(new File(dir, children[i]));
+				if (!success)
+				{
+					return false;
+				}
+			}
+		}
+		return dir.delete();
+	}
 	
-
 }

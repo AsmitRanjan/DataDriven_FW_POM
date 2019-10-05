@@ -26,7 +26,6 @@ public class LoginPageTest extends TestBase{
 		test = reports.createTest("testAccounts");
         test.assignCategory("Smoke");
         driver=driverfact.getEventDriver(driver, test);
-		extentTest = extent.startTest("homePageTest");
 		loginPage.clickOnSBS();
 	}
 

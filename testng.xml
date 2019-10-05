@@ -2,9 +2,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Suite">
 	<listeners>
-		
+		<listener class-name="com.qa.ExtentReportListener.InitReports" />
 		<listener class-name="com.qa.util.CustomListener" />
-		<listener class-name="com.qa.util.InitReports" />
+		
 	</listeners>
 	
   <test name="Test">

@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -18,20 +19,19 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.qa.ExtentReportListener.EventListner;
 import com.qa.util.TestUtil;
-import com.qa.util.WebEventListener;
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
-import com.relevantcodes.extentreports.LogStatus;
+
 
 
 
 public class TestBase {
 	public static WebDriver driver;
 	public static Properties prop;
-	public ExtentReports extent;
-	public ExtentTest extentTest;
-	public  static EventFiringWebDriver e_driver;
+	
+	//public  static EventFiringWebDriver e_driver;
 	public static WebDriverEventListener eventListener;
 	
 	Logger log = Logger.getLogger(TestBase.class);
@@ -57,11 +57,7 @@ public class TestBase {
 				driver = new ChromeDriver();
 			}
 			
-			e_driver = new EventFiringWebDriver(driver);
-			// Now create object of EventListerHandler to register it with EventFiringWebDriver
-			eventListener = new WebEventListener();
-			e_driver.register(eventListener);
-			driver = e_driver;
+			
 			
 			driver.manage().window().maximize();
 			driver.manage().deleteAllCookies();
@@ -74,8 +70,9 @@ public class TestBase {
 		@BeforeSuite
 		public void setupSuite() {
 			String dateName = new SimpleDateFormat("MM-dd-yyyy_HH-mm-ss").format(new Date());
-			extent = new ExtentReports(System.getProperty("user.dir")+"/Reports/"
-					+ "OAProject_" + dateName + ".html", true);
+			//extent = new ExtentReports(System.getProperty("user.dir")+"/Reports/"
+					//+ "OAProject_" + dateName + ".html", true);
+			
 		}
 		
 		@BeforeMethod
@@ -89,7 +86,7 @@ public class TestBase {
 			log.info("*****************************************************************************************");
 			intialization();
 		}
-		@AfterMethod
+		/*@AfterMethod
 		public void tearDown(ITestResult result){
 			driver.quit();
 			if(result.getStatus()==ITestResult.FAILURE){
@@ -105,12 +102,12 @@ public class TestBase {
 			}
 			extent.endTest(extentTest); 
 			extent.flush();
-		}
+		}*/
 		
 		
 		public  WebDriver getEventDriver(WebDriver driver,com.aventstack.extentreports.ExtentTest test) {
-			EventFiringWebDriver d = new EventFiringWebDriver(driver);
-			WebEventListener event =new  WebEventListener(test);
+			EventFiringWebDriver d=new EventFiringWebDriver(driver);
+			EventListner event =new  EventListner(test);
 			d.register(event);
 			//waitForPageLoad(driver);
 			return d;

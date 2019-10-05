@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 //import com.qa.util.Wait;
-import com.relevantcodes.extentreports.LogStatus;
+//import com.relevantcodes.extentreports.LogStatus;
 import com.qa.base.TestBase;
 
 public class GenericFunction extends TestBase{

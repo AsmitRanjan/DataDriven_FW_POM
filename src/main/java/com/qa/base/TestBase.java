@@ -10,8 +10,11 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 import org.testng.ITestResult;
@@ -34,8 +37,11 @@ public class TestBase {
 	//public  static EventFiringWebDriver e_driver;
 	public static WebDriverEventListener eventListener;
 	
-	Logger log = Logger.getLogger(TestBase.class);
-	
+	Logger logger = Logger.getLogger(TestBase.class);
+	PropertyConfigurator.configure("log4j.properties");
+	  
+	driver.get("http://10.67.89.41/Automation/PackAndGo_v2/index.html");
+	logger.info("Opening Pack and Go application");
 	
 	public TestBase() {
 		prop = new Properties();
@@ -56,7 +62,15 @@ public class TestBase {
 				System.setProperty("webdriver.chrome.driver", ".//Drivers//chromedriver.exe");
 				driver = new ChromeDriver();
 			}
-			
+			else if(browserName.equals("IE")) {
+				System.setProperty("webdriver.ie.driver", ".//Drivers//IEdriver.exe"); 
+				driver=new InternetExplorerDriver();  
+			}
+			else if (browserName.equals("FF")) {
+				System.setProperty("webdriver.gecko.driver",".//Drivers//geckodriver.exe");
+				WebDriver driver = new FirefoxDriver();
+				
+			}
 			
 			
 			driver.manage().window().maximize();
@@ -77,13 +91,13 @@ public class TestBase {
 		
 		@BeforeMethod
 		public void setUp() throws IOException{
-			log.info("****************************************************************************************");
+			logger.info("****************************************************************************************");
 			 
-			log.info("****************************************************************************************");
+			logger.info("****************************************************************************************");
 			 
-			log.info("$$$$$$$$$$$$$$$$$$$$$          "+"Starting Test case"+ "       $$$$$$$$$$$$$$$$$$$$$$$$$");
+			logger.info("$$$$$$$$$$$$$$$$$$$$$          "+"Starting Test case"+ "       $$$$$$$$$$$$$$$$$$$$$$$$$");
 			 
-			log.info("*****************************************************************************************");
+			logger.info("*****************************************************************************************");
 			intialization();
 		}
 		/*@AfterMethod
